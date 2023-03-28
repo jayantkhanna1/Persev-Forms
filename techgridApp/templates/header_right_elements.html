@@ -1,0 +1,24 @@
+{%load static%}
+{%block content1%}
+<link rel="stylesheet" href="{%static 'css/header_right_elements.css'%}">
+<div id="right_elements">
+    <img onclick="openappsmodal()" src="{%static 'images/apps.svg'%}" id="apps" alt="">
+    <a href="login"><img src="{%static 'images/user.svg'%}" id="user" alt=""></a>
+</div>
+<div id="appmodal">
+    <a href="#"><img src="{%static 'images/forms.jpg'%}" alt=""></a>
+</div>
+<script>
+    var i=0;
+    function openappsmodal() {
+        if(i%2==0){
+            document.getElementById("appmodal").style.display="flex";
+            i++;
+        }
+        else{
+            document.getElementById("appmodal").style.display="none";
+            i++;
+        }
+    }
+</script>
+{%endblock%}

@@ -1,0 +1,165 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- title -->
+    <title>Surveys</title>
+    <link rel="icon" href="{%static 'images/logo.svg' %}" type="image/icon type">
+
+    <!-- Local styling -->
+    <link rel="stylesheet" href="{%static 'css/index.css' %}">
+
+    <!-- Font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- For jquery and ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>   
+    
+    <style>
+        body{
+            background-color: white !important;
+        }
+        a{
+            text-decoration: none;
+        }
+        .survey_text{
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <a id="indeximg" href="index"><div id="left">
+            <img src="{%static 'images/logo.svg'%}" alt="" id="logo">
+            <p><span id="persev">Persev</span>&nbsp;Forms</p>
+        </div></a>
+        <div id="center">
+            <img id="searchimg" src="{%static 'images/search.svg' %}" alt="">
+            <input id="searchbar" type="search" placeholder="Search forms" name="" id="">
+        </div>
+        <div id="right">
+                {%include 'header_right_elements.html'%}
+                {%block content1%}
+                {%endblock%}
+        </div>
+    </div>
+    
+    <div id="newforms">
+        
+        <div id="templates">
+            <a href="newform">
+                <h3 id="heading_newforms">Start new forms</h3>
+                <div id="newform">
+                    <img id="plus" src="{%static 'images/plus.svg' %}" alt="">
+                </div>
+                <br>
+                <p>Blank Form</p>
+            </a>
+            <a class="templates_premade" id="eventmanagement" href="">
+                <img src="{%static 'images/event_management.png' %}" alt=""><br>
+                <p id="event_p">Event</p>
+            </a>
+
+            <a class="templates_premade"  id="eventmanagement" href="">
+                <img src="{%static 'images/event_management.png' %}" alt=""><br>
+                <p id="event_p">Event</p>
+            </a>
+
+            <a class="templates_premade"  id="eventmanagement" href="">
+                <img src="{%static 'images/event_management.png' %}" alt=""><br>
+                <p id="event_p">Event</p>
+            </a>
+
+            <a class="templates_premade" id="eventmanagement" href="">
+                <img src="{%static 'images/event_management.png' %}" alt=""><br>
+                <p id="event_p">Event</p>
+            </a>
+
+            <a class="templates_premade" id="eventmanagement" href="">
+                <img src="{% static 'images/event_management.png' %}" alt=""><br>
+                <p id="event_p">Event</p>
+            </a>
+        </div>
+    </div>
+    <!-- onclick="opensurvey('{{x.id}}')"  -->
+    <div id="allmadeforms">
+        {%for x in forms%}
+            <div  class="formouter">
+                <a href="opensurvey?surveyid={{x.id}}"><img  class="form_img" id="card_bg_img" src="{%static 'images/bg_card.webp'%}" alt=""></a>
+                <div class="options">
+                    <a class="survey_text" href="opensurvey?surveyid={{x.id}}" class="name">{{x.surveyname}}</a>
+                    <img onclick="open_option_pane('{{x.id}}')" src="{%static 'images/options.svg'%}" alt="">
+
+                </div>
+                <div id="pane_{{x.id}}" class="options_pane">
+                    <a href="">Delete Form</a>
+                    <a href="">Disable Form</a>
+                    <a href="">Duplicate Form</a>
+
+                </div>
+            </div>
+
+            {%endfor%}
+
+            
+    </div>
+    <script>
+        function opensurvey(id){
+            $.ajax({
+                    type: 'GET',
+                    url : "opensurvey",
+                    data : {    
+                        'surveyid':id
+                    },
+                    success: function(response){
+                        window.location.href = response;
+                    },
+                    error: function(response){
+                        alert("some error occured please contact system admin")
+                    }
+                });
+        }
+    </script>
+    <script>
+        function deletesurvey(id){
+            $.ajax({
+                    type: 'GET',
+                    url : "deletesurvey",
+                    data : {    
+                        
+                        'surveyid':id
+                        
+                    },
+                    success: function(response){
+                        window.location.href = response;
+                    },
+                    error: function(response){
+                        alert("some error occured please contact system admin")
+                    }
+                });
+        }
+    </script>
+    <script>
+        var g=0
+        function open_option_pane(id){
+            var pane = "#pane_"+id;
+            if(g==0){
+                $(pane).css("display","flex");
+                g=1;
+            }
+            else{
+                $(pane).css("display","none");
+                g=0;
+            }
+        }
+    </script>
+    
+</body>
+</html>

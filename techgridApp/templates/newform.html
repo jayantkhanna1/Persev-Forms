@@ -1,0 +1,225 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- title -->
+    <title>New Survey</title>
+    <link rel="icon" href="{%static 'images/logo.svg' %}" type="image/icon type">
+
+    <!-- Local styling -->
+    <link rel="stylesheet" href="{%static 'css/index.css' %}">
+    <link rel="stylesheet" href="{%static 'css/newform.css' %}">
+
+    <!-- Font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+     <!-- For jquery and ajax -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+     
+     <style>
+        #center a{
+            margin-right: 25px;
+            text-decoration: none;
+            color: #000;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+        }
+        #center{
+            padding-top: 50px;
+        }
+        .active{
+            border-bottom: 4px solid #7422BC;
+            color: #7422BC !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <a id="indeximg" href="index"><div id="left">
+            <img src="{%static 'images/logo.svg'%}" alt="" id="logo">
+            <p><span id="persev">Persev</span>&nbsp;Forms</p>
+        </div></a>
+        <div id="center">
+            <a href="" class="active">Questions</a>
+        </div>
+        <div id="right">
+                {%include 'header_right_elements.html'%}
+                {%block content1%}
+                {%endblock%}
+        </div>
+    </div>
+    <form action="javascript:void(0)">
+        <div id="innerform">
+            <div id="maininfoform">
+                <input onClick="this.select();" value="Untitled Survey" type="text" required placeholder="Survey Name" name="surveyname" id="surveyname"><br>
+                <input onClick="this.select();" value="Untitled Descripton" type="text" required placeholder="Survey Description" name="surveydescription" id="surveydescription"><br>
+            </div>
+            <div id="addquestionshere">
+                
+            </div>
+            
+            
+            <button id="myBtn">Add New</button>
+
+            <input type="submit" id="submit" onclick="createjson()" value="Create">
+        </div>
+    </form>
+    
+        <div id="myModal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Choose a type of question</h2>
+                </div>
+                <div class="modal-body">
+                <div class="radio">
+                    <a class="modaltext" href="javascript:void(0)" onclick="addquestion('1')">Rating</a>
+                    <a class="modaltext" href="javascript:void(0)" onclick="addquestion('2')">Multiple</a>
+                    <a class="modaltext" href="javascript:void(0)" onclick="addquestion('3')">Ranking</a>
+                    <a class="modaltext" href="javascript:void(0)" onclick="addquestion('4')">Value</a>
+                    
+                </div>
+                </div>
+            </div>
+        </div>
+    <script>
+        function removeques(id){
+            $("#quesouterid"+id).remove();
+        }
+    </script>
+    <script>
+        flag =1;
+        function addquestion(id){
+            if (id == 1){
+                temp="<div id='quesouterid"+flag+"' class='quesouter'><p class='quesp'>Question "+flag+".</p> <input onClick='this.select();' value='Enter Question' required class='ratingques' type='text' placeholder='Enter Question' name='q"+flag+"' id='q"+flag+"' data-type= 'rating' ><br><button onclick='removeques("+flag+")' class='removequestion'>Remove Question</button></div><br>"
+                $("#addquestionshere").append(temp); 
+            }
+            if(id == 2){
+                temp="<div id='quesouterid"+flag+"' class='quesouter'><p class='quesp'>Question "+flag+".</p><input onClick='this.select();' value='Enter Question' required class='multipleques' type='text' placeholder='Enter Question' name='q"+flag+"' id='q"+flag+"' data-type= 'multiple'><br><input onClick='this.select();' value='Option 1' required class='multipleoption' type='text' placeholder='Enter Multiple Option 1' name='q"+flag+"o1' id='q"+flag+"o1' data-type= 'multiple'><br><input onClick='this.select();' value='Option 2' required class='multipleoption' type='text' placeholder='Enter Multiple Option 2' name='q"+flag+"o2' id='q"+flag+"o2' data-type= 'multiple'><br><input onClick='this.select();' value='Option 3' required class='multipleoption' type='text' placeholder='Enter Multiple Option 3' name='q"+flag+"o3' id='q"+flag+"o3' data-type= 'multiple'><br><input onClick='this.select();' value='Option 4' required class='multipleoption' type='text' placeholder='Enter Multiple Option 4' name='q"+flag+"o4' id='q"+flag+"o4' data-type= 'multiple'><br><button onclick='removeques("+flag+")' class='removequestion'>Remove Question</button></div><br>"
+                $("#addquestionshere").append(temp);
+            }
+            if(id == 3){
+                temp="<div id='quesouterid"+flag+"' class='quesouter'><p class='quesp'>Question "+flag+".</p><input onClick='this.select();' value='Enter Question' required class='rankingques' type='text' placeholder='Enter Question' name='q"+flag+"' id='q"+flag+"' data-type= 'ranking'><br><input onClick='this.select();' value='Option 1' required class='rankingoption' type='text' placeholder='Enter ranking Option 1' name='q"+flag+"o1' id='q"+flag+"o1' data-type= 'ranking'><br><input onClick='this.select();' value='Option 2' class='rankingoption' type='text' placeholder='Enter ranking Option 2' name='q"+flag+"o2' id='q"+flag+"o2' required data-type='ranking'><br><input class='rankingoption' type='text' onClick='this.select();' value='Option 3' required placeholder='Enter ranking Option 3' name='q"+flag+"o3' id='q"+flag+"o3' data-type= 'ranking'><br><input onClick='this.select();' value='Option 4' required class='rankingoption' type='text' placeholder='Enter ranking Option 4' name='q"+flag+"o4' id='q"+flag+"o4' data-type= 'ranking'><br><input required class='rankingoption' type='text' onClick='this.select();' value='Option 5' placeholder='Enter ranking Option 5' name='q"+flag+"o5' id='q"+flag+"o5' data-type= 'ranking'><br><input onClick='this.select();' value='Option 6' required class='rankingoption' type='text' placeholder='Enter ranking Option 6' name='q"+flag+"o6' id='q"+flag+"o6' data-type= 'ranking'><br><button onclick='removeques("+flag+")' class='removequestion'>Remove Question</button></div><br>"
+                $("#addquestionshere").append(temp);
+            }
+            if (id == 4){
+                temp="<div id='quesouterid"+flag+"' class='quesouter'><p class='quesp'>Question "+flag+".</p><input onClick='this.select();' value='Enter Question' required class='valueques' type='text' placeholder='Enter Question' name='q"+flag+"' id='q"+flag+"' data-type= 'value'><br><button onclick='removeques("+flag+")' class='removequestion'>Remove Question</button></div><br>"
+                $("#addquestionshere").append(temp);
+            }
+            flag ++;
+            document.getElementById("myModal").style.display="none";
+            
+        }
+        function createjson(){
+            var surveyname = document.getElementById("surveyname").value;
+            var surveydescription = document.getElementById("surveydescription").value;
+            json=[]
+            if(surveydescription != "" && surveyname != ""){
+            for(var i = 1;i<flag;i++){
+                try{
+                    var element = document.getElementById('q'+i);
+                    var dataID = element.getAttribute('data-type');
+                    if(dataID == 'rating'){
+                        var q = element.value;
+                        var obj = {
+                            "question":q,
+                            "type":dataID,
+                        }
+                        json.push(obj);
+                    }
+                    if(dataID == 'multiple'){
+                        option1=document.getElementById("q"+i+"o1").value;
+                        option2=document.getElementById("q"+i+"o2").value;
+                        option3=document.getElementById("q"+i+"o3").value;
+                        option4=document.getElementById("q"+i+"o4").value;
+                        var q = element.value;
+                        var obj = {
+                            "question":q,
+                            "type":dataID,
+                            "options":[option1,option2,option3,option4]
+                        }
+                        json.push(obj);
+                    }
+                    if(dataID == 'ranking'){
+                        option1=document.getElementById("q"+i+"o1").value;
+                        option2=document.getElementById("q"+i+"o2").value;
+                        option3=document.getElementById("q"+i+"o3").value;
+                        option4=document.getElementById("q"+i+"o4").value;
+                        option5=document.getElementById("q"+i+"o5").value;
+                        option6=document.getElementById("q"+i+"o6").value;
+                        var q = element.value;
+                        var obj = {
+                            "question":q,
+                            "type":dataID,
+                            "options":[option1,option2,option3,option4,option5,option6]
+                        }
+                        json.push(obj);
+                    }
+                    if(dataID == 'value'){
+                        var q = element.value;
+                        var obj = {
+                            "question":q,
+                            "type":dataID,
+                        }
+                        json.push(obj);
+                    }
+                }
+                catch(err){
+                    continue;
+                }
+            }
+        }
+            json = JSON.stringify(json)
+            sendback(surveyname,surveydescription,json);
+        }
+        function sendback(surveyname,surveydescription,json){
+            console.log(json);
+        $.ajax({
+                    type: 'GET',
+                    url : "sendsurveyback",
+                    data : {    
+                        
+                        'surveyname':surveyname,
+                        'surveydescription':surveydescription,
+                        'json':json,
+                        
+                    },
+                    success: function(response){
+                        window.location.href = response;
+                    },
+                    error: function(response){
+                        alert("some error occured please contact system admin")
+                    }
+                });
+            }
+    </script>
+    <script>
+        var modal = document.getElementById("myModal");
+
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+        modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+
+        
+    </script>
+</body>
+</html>

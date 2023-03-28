@@ -1,0 +1,263 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- local css -->
+    
+    <link rel="stylesheet" href="{%static 'css/radio.css'%}">
+    <link rel="stylesheet" href="{%static 'css/index.css' %}">
+    <link rel="stylesheet" href="{%static 'css/newform.css' %}">
+    <link rel="stylesheet" href="{% static 'css/toast.css' %}">
+
+
+    <!-- title -->
+    <title>{{survey.surveyname}}</title>
+    <link rel="icon" href="{%static 'images/logo.svg' %}" type="image/icon type">
+
+    <!-- For jquery and ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>   
+    
+    <!-- Font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/ec7d8e2d79.js" crossorigin="anonymous"></script>
+    
+    <style>
+        #center a{
+            margin-right: 25px;
+            text-decoration: none;
+            color: #000;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+        }
+        #center{
+            padding-top: 50px;
+        }
+        .active{
+            border-bottom: 4px solid #7422BC;
+            color: #7422BC !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <a id="indeximg" href="index"><div id="left">
+            <img src="{%static 'images/logo.svg'%}" alt="" id="logo">
+            <p><span id="persev">Persev</span>&nbsp;Forms</p>
+        </div></a>
+        <div id="center">
+            <a href="opensurvey?surveyid={{survey.id}}" >Questions</a>
+            <a href="responses?surveyid={{survey.id}}" >Responses</a>
+            <a href="settings?surveyid={{survey.id}}" class="active">Settings</a>
+        </div>
+        <div id="right">
+                {%include 'header_right_elements.html'%}
+                {%block content1%}
+                {%endblock%}
+        </div>
+    </div>
+
+
+    <div id="shareable_outer">
+        <section id="shareable">
+            <div id="outer_save_button">
+                <div id="heading_settings">
+                    <p>Settings</p>
+                </div>
+                <div id="save">
+                    <button onclick="send_survey_settings_back()" id="save_button">Save Settings</button>
+                </div>
+            </div>
+            
+                <label id="shareable_label">Make this form accessable to Everyone<input checked onclick="make_shareable()" type="checkbox" id="make_shareable_or_not" class="ios-switch green  bigswitch"/><div><div></div></div></label>
+                 
+                <div id="list_of_allowed_people">
+                    <p>Please Enter Email Id of everyone allowed to access this form : </p> <div id="flex_email"><input placeholder="Email" id="email_access" type="email"> <button onclick="add_email()" id="add_email_to_list">Add</button>  </div>
+                    <br>
+                    <p>Allowed People:</p>
+                    <div id="list">
+                        {%for x in accessable%}
+                        <p id="{{x}}">{{x}} &nbsp;&nbsp;&nbsp;&nbsp;<i onclick="remove_person('{{x}}')" style="cursor: pointer;" class="fa fa-xmark"></i></p>
+                        {%endfor%}
+                    </div>
+                </div>
+                {% if aon == True %}
+                <label id="anonymous_label">Allow anonymous responses<input checked type="checkbox" id="anonymous_or_not" class="ios-switch green  bigswitch"/><div id="anonymous"><div></div></div></label>
+                {% else %}
+                <label id="anonymous_label">Allow anonymous responses<input type="checkbox" id="anonymous_or_not" class="ios-switch green  bigswitch"/><div id="anonymous"><div></div></div></label>
+                {% endif %}
+
+                {% if ton == True %}
+                <label id="shareable_label">Send a Thankyou Message<input checked onclick="open_thankyou()" type="checkbox" id="thankyou_or_not" class="ios-switch green  bigswitch"/><div id="thankyou_label"><div></div></div></label>
+                {% else %}
+                <label id="shareable_label">Send a Thankyou Message<input onclick="open_thankyou()" type="checkbox" id="thankyou_or_not" class="ios-switch green  bigswitch"/><div id="thankyou_label"><div></div></div></label>
+                {% endif %}
+                
+                <div id="thankyou_message_div">
+                    <p>Please enter custom thankyou message : </p> 
+                    
+                    <input id="thankyou_message" type="text" value="{{tmsg}}" id="thankyou_message" placeholder="Thankyou Message">
+                </div>
+
+                {%if lon == True %}
+                <label id="shareable_label">Limit to one response<input onclick="change_state()" checked type="checkbox" id="limit_to_one" class="ios-switch green  bigswitch"/><div id="limit"><div></div></div></label>
+                {% else %}
+                <label id="shareable_label">Limit to one response<input type="checkbox" id="limit_to_one" class="ios-switch green  bigswitch"/><div id="limit"><div></div></div></label>
+                {%endif%}
+        </section>
+    </div>
+
+    
+    <div id="toast"><i class="fa fa-check" id="img"></i><div id="desc">Changes Saved</div></div>
+   
+    <script>
+        function launch_toast() {
+            var x = document.getElementById("toast")
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+        }
+    </script>
+
+    <script>
+        if(document.getElementById("limit_to_one").checked == true){
+            document.getElementById("anonymous_or_not").checked = false;
+        }
+        else{
+            document.getElementById("anonymous_or_not").checked = true;
+        }
+        function change_state(){
+            if(document.getElementById("limit_to_one").checked == true){
+                document.getElementById("anonymous_or_not").checked = false;
+            }
+            else{
+                document.getElementById("anonymous_or_not").checked = true;
+            }
+        }
+        
+    </script>
+
+
+    <script>
+        if(document.getElementById("thankyou_or_not").checked == true){
+            document.getElementById("thankyou_message_div").style.display = "flex";
+        }
+        else{
+            document.getElementById("thankyou_message_div").style.display = "none";
+        }
+        
+    </script>
+
+
+    <input value="yes" readonly style="display: none;" type="text" id="hiddenshareablefield">
+
+
+    <script>
+        $(document).ready(function () {
+            if (window.location.hash == '#reload') {
+                onReload();
+            }
+            });
+
+            function onReload () {
+                launch_toast();
+            }
+    </script>
+
+    <script>
+        function open_thankyou(){
+            var thankyou_or_not = document.getElementById("thankyou_or_not").checked;
+            if(thankyou_or_not){
+                document.getElementById("thankyou_message_div").style.display = "flex";
+            }
+            else{
+                document.getElementById("thankyou_message_div").style.display = "none";
+            }
+        }
+    </script>
+    <script>
+        function send_survey_settings_back(){
+            
+            var shareable = document.getElementById('hiddenshareablefield').value;
+            var emails = document.getElementsByClassName('emailstoaccess');
+            var emailList = ''
+            if(shareable == 'no'){
+                for(var i=0;i<emails.length;i++){
+                    emailList += emails[i].innerHTML + ',';
+                }
+
+            }
+            var data = {
+                'shareable' : shareable,
+                'emaillist' : emailList,
+                'surveyid' : '{{survey.id}}',
+                'limit_to_one' : document.getElementById('limit_to_one').checked,
+                'anonymous_or_not' : document.getElementById('anonymous_or_not').checked,
+                'thankyou_or_not' : document.getElementById('thankyou_or_not').checked,
+                'thankyou_message' : document.getElementById('thankyou_message').value
+            }
+            $.ajax({
+                type: "GET",
+                url: "send_survey_settings_back",
+                data: data,
+                success: function (response) {
+                    window.location.hash = 'reload';
+                    window.location.reload();
+                    
+                }
+            });
+        }
+    </script>
+    <script>
+        if ('{{aba}}' == 'True'){
+            document.getElementById('make_shareable_or_not').checked = true;
+            document.getElementById('hiddenshareablefield').value = 'yes';
+            document.getElementById('list_of_allowed_people').style.display="none";
+        }
+        else{
+            document.getElementById('make_shareable_or_not').checked = false;
+            document.getElementById('hiddenshareablefield').value = 'no';
+            document.getElementById('list_of_allowed_people').style.display="flex";
+        }
+    </script>
+    <script>
+        function remove_person(id){
+            var x = document.getElementById(id);
+            x.remove();
+        }
+        function add_email(){
+            var email = document.getElementById('email_access').value;
+            var list = document.getElementById('list');
+            var p = document.createElement('p');
+            p.innerHTML = email + '&nbsp;&nbsp;&nbsp;&nbsp;<i onclick="remove_person(\''+email+'\')" style="cursor: pointer;" class="fa fa-xmark"></i>';
+            p.id = email;
+            list.appendChild(p);
+            document.getElementById('email_access').value = '';
+            document.getElementById(email).style.color = "#00FF00"
+        }
+    </script>
+
+    <script>
+        function make_shareable(){
+            var shareable = document.getElementById('make_shareable_or_not').checked;
+            if(shareable){
+                document.getElementById('hiddenshareablefield').value = "yes";
+                document.getElementById('list_of_allowed_people').style.display="none";
+
+            }
+            else{
+                document.getElementById('hiddenshareablefield').value = "no";
+                document.getElementById('list_of_allowed_people').style.display="flex";
+            }
+        }
+    </script>
+    
+</body>
+</html>

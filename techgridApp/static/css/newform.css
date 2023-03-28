@@ -1,0 +1,292 @@
+
+/* The Modal (background) */
+#myModal,#share_modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+  }
+  .modaltext{
+    text-decoration: none;
+    margin: 10px;
+    color: black;
+  }
+  /* Modal Content */
+  .modal-content,#share_modal_content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 20%;
+
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+  
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+  }
+  
+  @keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+  }
+  .radio{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  /* The Close Button */
+  .close,#share_modal_close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus,#share_modal_close:hover,#share_modal_close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .modal-header,#share_modal_header {
+    padding: 2px 16px;
+    background-color: #7422BC;
+    color: white;
+  }
+  
+  .modal-body ,#share_modal_body{padding: 2px 16px;}
+
+body{
+  position: relative;
+}
+form{
+  
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#innerform{
+  border-radius: 25px;
+  background-color: white;
+  padding:30px;
+  width: 700px;
+}
+
+#surveyname,#surveydescription{
+  outline: none;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  width: 90%;
+  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: 700;
+}
+#surveydescription{
+  font-size: 15px;
+  color: rgb(70, 70, 70);
+
+}
+.ratingques,.multipleques,.rankingques,.valueques{
+  outline: none;
+  border: none;
+  padding: 15px;
+  width: 90%;
+  font-size: 18px;
+  font-weight: 700;
+  color: #888;
+}
+#maininfoform{
+  background-color: rgb(245, 245, 245);
+  padding: 15px 10px;
+  margin-bottom: 20px;
+}
+#surveyname:focus,#surveydescription:focus{
+  border-bottom: 2px solid rgb(145, 175, 245);
+}
+.quesouter{
+  padding: 20px;
+  margin-bottom: 25px;
+  background-color: rgb(245, 245, 245);
+}
+.quesp{
+  margin-bottom: 5px;
+}
+.multipleoption,.rankingoption{
+  outline: none;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  border: none;
+  padding: 15px;
+  width: 40%;
+  font-size: 16px;
+  font-weight: 700;
+  color: #888;
+}
+.removequestion{
+  margin-top: 12px;
+  background-color: #7422BC;
+  border-radius: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: 100;
+}
+
+
+
+
+#sideimg1{
+  width: 700px;
+  height: 700px;
+  position: fixed;
+  border: none;
+  outline: none;
+  z-index: -2;
+  opacity: 0.6;
+}
+#sideimg2{
+  width: 700px;
+  height: 700px;
+  position: fixed;
+  border: none;
+  outline: none;
+  z-index: -2;
+  right: 10px;
+  opacity: 0.6;
+}
+
+#myBtn,#submit,.modaltext,#addemailbutton,#savedata{
+  margin-top: 12px;
+  background-color: #7422BC;
+  border-radius: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: 100;
+}
+
+#shareemail,#shareablelink{
+  width: 80%;
+  font-size: 20px;
+  font-weight: 700;
+  outline: none;
+  padding: 10px;
+  margin-bottom: 10px;
+
+}
+#share_modal_content{
+  width: 50%;
+}
+#linkshare{
+  text-align: center;
+
+}
+#addemailshere{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#shareable_outer{
+  display: flex;
+  justify-content: center;
+}
+#shareable{
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  padding: 30px 100px;
+  width: 775px;
+  border-radius: 20px;
+}
+#shareable_label,#anonymous_label{
+  display: flex;
+  align-items: center;
+}
+#anonymous_label{
+  margin-top: 25px;
+} 
+#email_access,#thankyou_message{
+  margin-top: 15px;
+  height: 15px;
+  border-radius: 11px;
+  width: 245px;
+  outline: none;
+  padding: 15px;
+  border: none;
+  background-color: rgb(220, 220, 220);
+}
+#list_of_allowed_people,#thankyou_message_div{
+  margin-top: 15px;
+  display: none;
+  flex-direction: column;
+  margin-left: 50px;
+  justify-content: center;
+}
+
+#list{
+  margin-top: 20px;
+  margin-left: 20px;
+}
+#add_email_to_list,#save_button{
+  margin-left: 15px;
+  padding: 15px 20px;
+  background-color: #7422BC;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  color: white;
+}
+#list p{
+  margin-top: 10px;
+}
+
+#outer_save_button{
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  margin-top: 20px;
+  margin-bottom: 25px;
+
+
+}
+#heading_settings{
+  font-weight: 500;
+  font-size: 30px;
+}
+#anonymous{
+  margin-left: 111px;
+}
+#thankyou_label{
+  margin-left: 126px;
+}
+#limit{
+  margin-left: 160px;
+}
+

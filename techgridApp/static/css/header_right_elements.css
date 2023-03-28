@@ -1,0 +1,50 @@
+#apps,#user{
+    width: 30px;
+    cursor: pointer;
+}
+#right_elements{
+    margin-top: -5px;
+}
+#apps{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#appmodal{
+    background-color: white;
+    width: 300px;
+    height: auto;
+    overflow-y: auto;
+    display: none;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 110%;
+    left: 80%;
+    border-radius: 18px;
+}
+#appmodal img{
+    padding: 15px;
+    width:60px;
+}
+
+#appmodal::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  #appmodal::-webkit-scrollbar-track {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  #appmodal::-webkit-scrollbar-thumb {
+    height: 50px;
+      border-radius:20px;
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  #appmodal::-webkit-scrollbar-thumb:hover {
+    background: #EEEEEE; 
+  }

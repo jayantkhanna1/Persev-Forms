@@ -1,0 +1,86 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title -->
+    <title>Responses</title>
+    <link rel="icon" href="{%static 'images/logo.svg' %}" type="image/icon type">
+
+    <!-- local css -->
+    
+    <link rel="stylesheet" href="{% static 'css/radio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/newform.css' %}">
+    <link rel="stylesheet" href="{% static 'css/toast.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responses.css' %}">
+
+    <!-- For jquery and ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>   
+    
+    <!-- Font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/ec7d8e2d79.js" crossorigin="anonymous"></script>
+
+    <style>
+        #center a{
+            margin-right: 25px;
+            text-decoration: none;
+            color: #000;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+        }
+        #center{
+            padding-top: 50px;
+        }
+        .active{
+            border-bottom: 4px solid #7422BC;
+            color: #7422BC !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <a id="indeximg" href="index"><div id="left">
+            <img src="{%static 'images/logo.svg'%}" alt="" id="logo">
+            <p><span id="persev">Persev</span>&nbsp;Forms</p>
+        </div></a>
+        <div id="center">
+            <a href="opensurvey?surveyid={{surveyid}}" >Questions</a>
+            <a href=""  class="active">Responses</a>
+            <a href="settings?surveyid={{surveyid}}">Settings</a>
+        </div>
+        <div id="right">
+                {%include 'header_right_elements.html'%}
+                {%block content1%}
+                {%endblock%}
+        </div>
+    </div>
+    <div id="outer_responses_section">
+        <div id="responses_section">
+            <div id="settings_and_total">
+                <p>{{responses_len}} Responses</p>
+                <div id="menu_item" onclick="show_edit_modal()"><i class="fa fa-ellipsis-vertical"></i></div>
+                <div id="edit_modal">
+        
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+        function show_edit_modal(){
+            document.getElementById('edit_modal').style.display = "block";
+        }
+    </script>
+</body>
+</html>

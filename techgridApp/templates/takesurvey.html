@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags  -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title -->
+    <title>Surveys</title>
+    <link rel="icon" href="{%static 'images/logo.svg' %}" type="image/icon type">
+
+     <!-- local css -->
+     <link rel="stylesheet" href="{%static 'css/takesurvey.css' %}">
+     <link rel="stylesheet" href="{%static 'css/newform.css' %}">
+ 
+     <!-- For jquery and ajax -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>   
+     
+     <!-- Font  -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <form action="javascript:void(0)">
+        <div id="innerform">
+            <div id="maininfoform">
+                <input onClick="this.select();" value="{{survey.name}}" type="text" required placeholder="Survey Name" name="surveyname" id="surveyname"><br>
+                <input onClick="this.select();" value="{{survey.description}}" type="text" required placeholder="Survey Description" name="surveydescription" id="surveydescription"><br>
+            </div>
+            <div id="addquestionshere">
+                
+            </div>
+            
+            
+
+            <input onclick="createjson()" type="submit" id="submit" value="Submit">
+        </div>
+    </form>
+    <script>
+        flag=1
+        data ='{{survey.json}}'
+        data =data.replaceAll('&quot;','"')
+        data1 = JSON.parse(data)
+
+        //to set prev questions
+        for(var i = 0 ; i < data1.length ; i++){
+            console.log(data1[i]['type'])
+            if (data1[i]['type'] == 'rating'){
+                temp="<div id='quesouterid"+flag+"' class='quesouter'><p class='quesp'>Question "+flag+".</p> <input readonly  value='"+data1[i]['question']+"' required class='ratingques' type='text' placeholder='Enter Question' name='q"+flag+"' id='q"+flag+"' data-type= 'rating' ><br><select class='rankingselect' data-anstype='rating' name='' id='ans_"+flag+"'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option><option value='6'>6</option><option value='7'>7</option><option value='8'>8</option><option value='9'>9</option><option value='10'>10</option></select></div><br>"
+                $("#addquestionshere").append(temp); 
+            }
+            if (data1[i]['type'] == 'multiple'){
+                temp="<div id='quesouterid"+flag+"' class='quesouter'><p class='quesp'>Question "+flag+".</p><input readonly  value='"+data1[i]['question']+"' required class='multipleques' type='text' placeholder='Enter Question' name='q"+flag+"' id='q"+flag+"' data-type= 'multiple'><br><input readonly  value='"+data1[i]['options'][0]+"' required class='multipleoption' type='text' placeholder='Enter Multiple Option 1' name='q"+flag+"o1' id='q"+flag+"o1' data-type= 'multiple'><input type='radio' data-anstype='multiple' name='option_1_"+flag+"' id='ans_"+flag+"'><br><input readonly  value='"+data1[i]['options'][1]+"' required class='multipleoption' type='text' placeholder='Enter Multiple Option 2' name='q"+flag+"o2' id='q"+flag+"o2' data-type= 'multiple'><input type='radio' name='option_1_"+flag+"' data-anstype = 'multilpe' id='ans_"+flag+"_2'><br><input readonly  value='"+data1[i]['options'][2]+"' required class='multipleoption' type='text' placeholder='Enter Multiple Option 3' name='q"+flag+"o3' id='q"+flag+"o3' data-type= 'multiple'><input type='radio' name='option_1_"+flag+"' data-anstype id='ans_"+flag+"_3'><br><input readonly  value='"+data1[i]['options'][3]+"' required class='multipleoption' type='text' placeholder='Enter Multiple Option 4' name='q"+flag+"o4' id='q"+flag+"o4' data-type= 'multiple'><input type='radio' data-anstype='multiple' name='option_1_"+flag+"' id='ans_"+flag+"_4'><br></div><br>"
+                $("#addquestionshere").append(temp); 
+            }
+            if (data1[i]['type'] == 'ranking'){
+                temp="<div id='quesouterid"+flag+"' class='quesouter'><p class='quesp'>Question "+flag+".</p><input readonly  value='"+data1[i]['question']+"' required class='rankingques' type='text' placeholder='Enter Question' name='q"+flag+"' id='q"+flag+"' data-type= 'ranking'><br><input  value='"+data1[i]['options'][0]+"' required class='rankingoption' type='text' placeholder='Enter ranking Option 1' name='q"+flag+"o1' id='q"+flag+"o1' data-type= 'ranking'><input type='radio' name='option_1_"+flag+"' id='option_1_"+flag+"'><br><input  value='"+data1[i]['options'][1]+"' class='rankingoption' type='text' placeholder='Enter ranking Option 2' name='q"+flag+"o2' id='q"+flag+"o2' required data-type='ranking'><input type='radio' name='option_1_"+flag+"' id='option_2_"+flag+"'><br><input class='rankingoption' type='text'  value='"+data1[i]['options'][2]+"' required placeholder='Enter ranking Option 3' name='q"+flag+"o3' id='q"+flag+"o3' data-type= 'ranking'><input type='radio' name='option_1_"+flag+"' id='option_3_"+flag+"'><br><input  value='"+data1[i]['options'][3]+"' required class='rankingoption' type='text' placeholder='Enter ranking Option 4' name='q"+flag+"o4' id='q"+flag+"o4' data-type= 'ranking'><input type='radio' name='option_1_"+flag+"' id='option_4_"+flag+"'><br><input required class='rankingoption' type='text'  value='"+data1[i]['options'][4]+"' placeholder='Enter ranking Option 5' name='q"+flag+"o5' id='q"+flag+"o5' data-type= 'ranking'><input type='radio' name='option_1_"+flag+"' id='option_5_"+flag+"'><br><input  value='"+data1[i]['options'][5]+"' required class='rankingoption' type='text' placeholder='Enter ranking Option 6' name='q"+flag+"o6' id='q"+flag+"o6' data-type= 'ranking'><input type='radio' name='option_1_"+flag+"' id='option_6_"+flag+"'><br></div><br>"
+                $("#addquestionshere").append(temp); 
+            }
+            if (data1[i]['type'] == 'value'){
+                temp="<div id='quesouterid"+flag+"' class='quesouter'><p class='quesp'>Question "+flag+".</p> <input readonly  value='"+data1[i]['question']+"' required class='ratingques' type='text' placeholder='Enter Question' name='q"+flag+"' id='q"+flag+"' data-type= 'rating' ><br><input placeholder = 'Enter Answer' type='text' class='ratingques'  id='value_ans_"+flag+"'></div><br>"
+                $("#addquestionshere").append(temp); 
+            }
+            flag++;
+        }
+
+        function createjson(){
+            var username = '{{username}}'
+            var email = '{{email}}'
+            json = []
+            for( var i = 0; i < flag; i++){
+                try{
+                    var element = document.getElementById("ans_"+i);
+                    var datatype = element.getAttribute("data-anstype");
+                    if(datatype == "rating"){
+                        var ans = element.selectedIndex;
+                        var obj ={
+                            "question":i,
+                            "answer":ans,
+                        }
+                        json.push(obj);
+                    }
+                    if(datatype == "multiple"){
+                        var ans
+                        if (element.value.checked == true)
+                            ans = "option1";
+                        else{
+                            for(var j=2;j<=4;j++){
+                                element1 = docuemnt.getElementById("ans_"+i+"_"+j);
+                                if(element1.checked == true){
+                                    ans = "option"+j;
+                                    break;
+                                }
+
+                            }
+                        }
+                        var obj ={
+                            "question":i,
+                            "answer":ans,
+                        }
+                        json.push(obj);
+                    }
+                }
+                catch(err){
+                    continue
+                }
+            }
+        }
+    </script>
+</body>
+</html>

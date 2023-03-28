@@ -1,0 +1,15 @@
+.rankingselect{
+    margin-top: 15px !important;
+    width: 94.5%;
+    height: 100%;
+    border: none;
+    background-color: white;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    outline:none;
+    padding: 10px 0;
+    text-align: center;
+    margin: 0;
+    cursor: pointer;
+}
